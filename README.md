@@ -80,6 +80,8 @@ Maybe you can mention me or this repo in the acknowledgements too
 <!-- About the Project -->
 ## :star2: About the Project
 
+This is a simple react todo app that has a node.js express backend (Mongo db).
+In the todo app you can login / register, add todos, edit and delete. You can also change settings
 
 
 

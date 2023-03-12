@@ -81,6 +81,8 @@ Maybe you can mention me or this repo in the acknowledgements too
 ## :star2: About the Project
 
 
+
+
 <!-- Screenshots -->
 ### :camera: Screenshots
 
@@ -95,34 +97,22 @@ Maybe you can mention me or this repo in the acknowledgements too
 <details>
   <summary>Client</summary>
   <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
-    <li><a href="https://nextjs.org/">Next.js</a></li>
     <li><a href="https://reactjs.org/">React.js</a></li>
-    <li><a href="https://tailwindcss.com/">TailwindCSS</a></li>
+    <li><a href="https://expressjs.com">Node.js Express</a></li>
+    <li><a href="https://www.mongodb.com/">MongoDB</a></li>
   </ul>
 </details>
 
 <details>
   <summary>Server</summary>
   <ul>
-    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
     <li><a href="https://expressjs.com/">Express.js</a></li>
-    <li><a href="https://go.dev/">Golang</a></li>
-    <li><a href="https://nestjs.com/">Nest.js</a></li>
-    <li><a href="https://socket.io/">SocketIO</a></li>
-    <li><a href="https://www.prisma.io/">Prisma</a></li>    
-    <li><a href="https://www.apollographql.com/">Apollo</a></li>
-    <li><a href="https://graphql.org/">GraphQL</a></li>
   </ul>
 </details>
 
 <details>
 <summary>Database</summary>
   <ul>
-    <li><a href="https://www.mysql.com/">MySQL</a></li>
-    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
-    <li><a href="https://redis.io/">Redis</a></li>
-    <li><a href="https://neo4j.com/">Neo4j</a></li>
     <li><a href="https://www.mongodb.com/">MongoDB</a></li>
   </ul>
 </details>
@@ -130,18 +120,18 @@ Maybe you can mention me or this repo in the acknowledgements too
 <details>
 <summary>DevOps</summary>
   <ul>
-    <li><a href="https://www.docker.com/">Docker</a></li>
-    <li><a href="https://www.jenkins.io/">Jenkins</a></li>
-    <li><a href="https://circleci.com/">CircleCLI</a></li>
+    <li><a href="https://www.docker.com/">Docker??</a></li>
   </ul>
 </details>
 
 <!-- Features -->
 ### :dart: Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+- Login & register
+- Add todos
+- Edit todos
+- Delete todos
+- Change settings
 
 <!-- Color Reference -->
 ### :art: Color Reference
@@ -166,41 +156,13 @@ To run this project, you will need to add the following environment variables to
 <!-- Getting Started -->
 ## 	:toolbox: Getting Started
 
-<!-- Prerequisites -->
-### :bangbang: Prerequisites
-
-This project uses Yarn as package manager
-
-```bash
- npm install --global yarn
-```
-
-<!-- Installation -->
-### :gear: Installation
-
-Install my-project with npm
-
-```bash
-  yarn install my-project
-  cd my-project
-```
-   
-<!-- Running Tests -->
-### :test_tube: Running Tests
-
-To run tests, run the following command
-
-```bash
-  yarn test test
-```
-
 <!-- Run Locally -->
 ### :running: Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/Louis3797/awesome-readme-template.git
+  git clone https://github.com/SebuBergman/Simple-React-todo-app
 ```
 
 Go to the project directory
@@ -212,25 +174,14 @@ Go to the project directory
 Install dependencies
 
 ```bash
-  yarn install
+  npm install
 ```
 
 Start the server
 
 ```bash
-  yarn start
+  npm start
 ```
-
-
-<!-- Deployment -->
-### :triangular_flag_on_post: Deployment
-
-To deploy this project run
-
-```bash
-  yarn deploy
-```
-
 
 <!-- Usage -->
 ## :eyes: Usage
@@ -253,36 +204,6 @@ function App() {
 * [ ] Todo 2
 
 
-<!-- Contributing -->
-## :wave: Contributing
-
-<a href="https://github.com/Louis3797/awesome-readme-template/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Louis3797/awesome-readme-template" />
-</a>
-
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-
-<!-- Code of Conduct -->
-### :scroll: Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/Louis3797/awesome-readme-template/blob/master/CODE_OF_CONDUCT.md)
-
-<!-- FAQ -->
-## :grey_question: FAQ
-
-- Question 1
-
-  + Answer 1
-
-- Question 2
-
-  + Answer 2
-
-
 <!-- License -->
 ## :warning: License
 
@@ -302,8 +223,7 @@ Project Link: [https://github.com/Louis3797/awesome-readme-template](https://git
 
 Use this section to mention useful resources and libraries that you have used in your projects.
 
- - [Shields.io](https://shields.io/)
  - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
- - [Readme Template](https://github.com/othneildrew/Best-README-Template)
+ - [React docs](https://reactjs.org/docs/getting-started.html)
+ - [React Cheat Sheet](https://www.freecodecamp.org/news/the-react-cheatsheet/)
 

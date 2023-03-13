@@ -3,10 +3,15 @@ import axios from "axios";
 const API_URL = "http://127.0.0.1:5000/todos/"
 
 async function createTodo(task, date) {
+    console.log(task);
+    console.log(date);
+
     const { data: newTodo } = await axios.post(API_URL, {
         task,
         date,
     })
+    console.log(newTodo);
+    
     return newTodo
 }
 

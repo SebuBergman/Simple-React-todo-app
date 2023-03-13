@@ -7,19 +7,20 @@ import TextField from'@mui/material/TextField'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from'@mui/material/Stack';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format } from 'date-fns';
 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 function TodoList() {
-    //const [todoss, setTodoss] = useState({task: "", date: "", completed: ""});
+    //const [todos, setTodos] = useState({task: "", date: "", completed: ""});
     const [rowData, setRowData] = useState([]);
-    const [todos, setTodos] = useState([])
-    const [todo, setTodo] = useState("")
+    const [todos, setTodos] = useState([]);
+    const [todo, setTodo] = useState({task: "", date: ""});
+    const [task, setTask] = useState("");
     const gridRef = useRef();
 
     useEffect(() => {
@@ -41,11 +42,11 @@ function TodoList() {
             alert("please enter something")
             return
         }
-        if (todos.some(({ task }) => task === todo)) {
+        if (todos.some(({ task }) => task === todo.task)) {
             alert(`Task: ${todo} already exists`)
             return
         }
-        const newTodo = await APIHelper.createTodo(todo)
+        const newTodo = await APIHelper.createTodo(todo.task, todo.date)
         setTodos([...todos, newTodo])
     }
 
@@ -68,8 +69,8 @@ function TodoList() {
 
     const columns = [
         { field: "task", sortable: true, filter: true, floatingFilter: true },
-        { field: "date", sortable: true, filter: true, floatingFilter: true, valueFormatter: params => format(params.value, 'dd.MM.yyyy') },
-        { field: "completed", sortable: true, filter: true, floatingFilter: true },
+        { field: "date", sortable: true, filter: true, floatingFilter: true },
+        { field: "completed", sortable: true, floatingFilter: true },
     ];
 
     return (
@@ -78,7 +79,7 @@ function TodoList() {
         <h4>Add todo:</h4>
         <div>
           <div>
-            <Stack direction="row" spacing={2} justifyContent="center" alingItems="centerg">
+            <Stack direction="row" spacing={2} justifyContent="center" alignItems="centerg">
                 <TextField
                     label="Description"
                     variant="standard"
@@ -105,12 +106,12 @@ function TodoList() {
             <span id="animationAction"></span>
             <div
               className="ag-theme-alpine"
-              style={{ width: 600, height: 400, margin: "auto" }}
+              style={{ width: 1000, height: 400, margin: "auto" }}
             >
               <AgGridReact
                 ref={gridRef}
                 onGridReady={(params) => (gridRef.current = params.api)}
-                rowData={rowData}
+                rowData={todos}
                 columnDefs={columns}
                 rowSelection="single"
                 animateRows={true}

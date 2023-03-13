@@ -12,8 +12,12 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import { format } from 'date-fns';
 
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+
 function TodoList() {
-    const [todoss, setTodoss] = useState({task: "", date: "", completed: ""});
+    //const [todoss, setTodoss] = useState({task: "", date: "", completed: ""});
+    const [rowData, setRowData] = useState([]);
     const [todos, setTodos] = useState([])
     const [todo, setTodo] = useState("")
     const gridRef = useRef();
@@ -25,6 +29,11 @@ function TodoList() {
         }
         fetchTodoAndSetTodos()
     }, [])
+
+    //Check if the input is changed
+    const inputChanged = (e) => {
+        setTodo({ ...todo, [e.target.name]: e.target.value });
+    }
 
     const createTodo = async e => {
         e.preventDefault()
@@ -49,13 +58,13 @@ function TodoList() {
         setTodos(todos.map(todo => (todo.id === id ? updatedTodo : todo)))
     }
 
-    const deleteTodo = async (e, id => {
+    const deleteTodo = async (e, id) => {
         try {
             e.stopPropagation()
             await APIHelper.deleteTodo(id)
             setTodos(todos.filter(({ _id: i }) => id !== i))
         } catch (err) {}
-    })
+    }
 
     const columns = [
         { field: "task", sortable: true, filter: true, floatingFilter: true },
@@ -89,26 +98,19 @@ function TodoList() {
                         renderInput={(params) => <TextField variant="standard" {...params} />}
                     />
                 </LocalizationProvider>
-                <TextField
-                label="Completed"
-                variant="standard"
-                name="completed"
-                value={todo.completed}
-                onChange={inputChanged}
-                />
-                <Button onClick={addTodo} variant="contained" className="buttonadd" startIcon={<AddIcon />}>Add</Button>
+                <Button onClick={createTodo} variant="contained" className="buttonadd" startIcon={<AddIcon />}>Add</Button>
                 <Button onClick={deleteTodo} variant="contained" startIcon={<DeleteIcon />}>Delete</Button>
-                <Button onClick={clearTodo} variant="contained" className="buttonclear">Clear</Button>
+                <Button onClick={updateTodo} variant="contained" >Not working</Button>
             </Stack>
             <span id="animationAction"></span>
             <div
-              className="ag-theme-material"
-              style={{ width: 700, height: 400, margin: "auto" }}
+              className="ag-theme-alpine"
+              style={{ width: 600, height: 400, margin: "auto" }}
             >
               <AgGridReact
                 ref={gridRef}
                 onGridReady={(params) => (gridRef.current = params.api)}
-                rowData={todos}
+                rowData={rowData}
                 columnDefs={columns}
                 rowSelection="single"
                 animateRows={true}

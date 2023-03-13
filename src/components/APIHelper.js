@@ -30,4 +30,4 @@ async function getAllTodos() {
     return todos
 }
 
-export default { createTodo, updateTodo, deleteTodo, getAllTodos }
+export default { createTodo, updateTodo, deleteTodo, getAllTodos };

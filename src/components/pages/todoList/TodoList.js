@@ -1,4 +1,3 @@
-import '../App.css';
 import React, { useState, useRef, useEffect } from 'react';
 import APIHelper from "./APIHelper.js"
 import { AgGridReact } from 'ag-grid-react';
@@ -11,7 +10,12 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { format } from 'date-fns';
+import { signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '../../firebase/Firebase';
+import NavBar from '../../../navbar/Navbar';
 
+import '../../../App.css';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
@@ -28,7 +32,18 @@ function TodoList() {
             const todos = await APIHelper.getAllTodos()
             setTodos(todos)
         }
-        fetchTodoAndSetTodos()
+        fetchTodoAndSetTodos();
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in.
+                const uid = user.uid;
+                console.log("uid", uid);
+            } else {
+                // User is signed out
+                console.log("user is logged out");
+            }
+        });
     }, [])
 
     //Check if the input is changed
@@ -71,15 +86,17 @@ function TodoList() {
         { field: "task", sortable: true, filter: true, floatingFilter: true },
         { field: "date", sortable: true, filter: true, floatingFilter: true },
         { field: "completed", sortable: true, floatingFilter: true },
+        { field: "edit", sortable: true, floatingFilter: true},
+        { field: "delete", sortable: true, floatingFilter: true},
     ];
 
     return (
       <div>
-        <h1>Simple Todolist</h1>
-        <h4>Add todo:</h4>
+        <NavBar></NavBar>
         <div>
           <div>
             <Stack direction="row" spacing={2} justifyContent="center" alignItems="centerg">
+                <h4>Add todo:</h4>
                 <TextField
                     label="Description"
                     variant="standard"

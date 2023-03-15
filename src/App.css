@@ -28,6 +28,20 @@
   color: #61dafb;
 }
 
+#NavbarContainer {
+  margin-bottom: 20px;
+}
+
+#NavbarTitle {
+  color: white;
+}
+
+#NavbarUser {
+  color: white;
+}
+
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -1,34 +1,24 @@
-import React, { useState } from 'react';
-import { Routes, Route, BrowserRouter, Navigate, useNavigate } from "react-router-dom";
-import TheContextProvider, { TheContext } from "./TheContext";
-import TodoList from './components/TodoList';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import NavBar from './navbar/Navbar.js';
+import React, {useState, useEffect} from 'react';
+import { BrowserRouter as Router} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
+import TodoList from './components/pages/todoList/TodoList';
+import Signup from './components/pages/register/Signup';
+import Login from './components/pages/login/Login';
 
 import './App.css';
 
 export default function App() {
-    const [value, setValue] = useState('todolist');
-    const handleTabChange = (event, value) => {
-        setValue(value);
-    };
-
-    return (
-      <TheContextProvider>
-        <BrowserRouter>
+  return (
+    <Router>
+      <div>
+        <section>
           <Routes>
-            <Route path="/" element={<TodoList />}></Route>
-            {/*<Route path="settings" element={<SettingsPage />} />*/}
+            <Route path="/" element={<TodoList />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
-        </BrowserRouter>
-      </TheContextProvider>
-      /*
-    <div className="App">
-        <Tabs value={value} onChange={handleTabChange}>
-            <Tab value="todolist" label="TodoList" />
-        </Tabs>
-        {value === 'todolist' && <TodoList />}
-    </div>);*/
-    );
+        </section>
+      </div>
+    </Router>
+  );
 }

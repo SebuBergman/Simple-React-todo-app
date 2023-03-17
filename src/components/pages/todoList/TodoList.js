@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Checkbox } from 'react';
 import { Navigate, useNavigate } from "react-router-dom";
 import APIHelper from "./APIHelper.js"
 import { AgGridReact } from 'ag-grid-react';
@@ -6,6 +6,7 @@ import Button from'@mui/material/Button';
 import TextField from'@mui/material/TextField'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Stack from'@mui/material/Stack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -18,12 +19,10 @@ import NavBar from '../../../navbar/Navbar';
 import '../../../App.css';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import e from 'cors';
 
 function TodoList() {
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState({task: "", date: ""});
-    const [task, setTask] = useState("");
     
     const gridRef = useRef();
 
@@ -34,7 +33,7 @@ function TodoList() {
         }
         fetchTodoAndSetTodos();
 
-        console.log(todos);
+        //console.log(todos);
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -55,6 +54,7 @@ function TodoList() {
     }
 
     const createTodo = async e => {
+        console.log(todos);
         e.preventDefault()
         if (!todo) {
             alert("please enter something")
@@ -69,50 +69,30 @@ function TodoList() {
     }
 
     const updateTodo = async (e, id) => {
-        console.log(id);
         e.stopPropagation()
         const payload = {
-            completed: !todos.find(todo => todo.id === id).completed,
+            completed: !todos.find(todo => todo._id === id).completed
         }
         const updatedTodo = await APIHelper.updateTodo(id, payload)
         setTodos(todos.map(todo => (todo.id === id ? updatedTodo : todo)))
     }
 
     const deleteTodo = async (e, id) => {
-        console.log(id);
         try {
             e.stopPropagation()
             await APIHelper.deleteTodo(id)
             setTodos(todos.filter(({ _id: i }) => id !== i))
         } catch (err) {}
     }
-
-    const columns = [
-        { field: "task", sortable: true, filter: true, floatingFilter: true },
-        { field: "date", sortable: true, filter: true, floatingFilter: true },
-        { field: "completed", sortable: true, floatingFilter: true },
-        { field: "_id", sortable: true, floatingFilter: true, width: 300, },
-        {
-            headerName: 'Edit task',
-            field: "edit",
-            cellRenderer: (params) => (
-                <Button onClick={e => updateTodo(e, params.row.id)}
-                >
-                    Edit
-                </Button>
-            ),
-        },
-        {
-            headerName: 'Delete task',
-            field: "delete",
-            cellRenderer: (params) => (
-                <Button onClick={e => deleteTodo(e, params.row.id)}
-                >
-                    Delete
-                </Button>
-            ),
-        }
-    ];
+ 
+    const Checkbox = ({ label, value, onChange }) => {
+        return (
+            <label>
+            <input type="checkbox" checked={value} onChange={onChange} />
+            {label}
+            </label>
+        );
+    };
 
     return (
       <div>
@@ -143,18 +123,21 @@ function TodoList() {
                 <Button onClick={createTodo} variant="contained" className="buttonadd" startIcon={<AddIcon />}>Add</Button>
             </Stack>
             <span id="animationAction"></span>
-            <div
-              className="ag-theme-alpine"
-              style={{ width: 1000, height: 400, margin: "auto" }}
-            >
-              <AgGridReact
-                ref={gridRef}
-                onGridReady={(params) => (gridRef.current = params.api)}
-                rowData={todos}
-                columnDefs={columns}
-                rowSelection="single"
-                animateRows={true}
-              ></AgGridReact>
+            <div style={{ width: 1000, height: 400, margin: "auto" }} >
+                <ul>
+                    {todos.length ? todos.map(({ _id, task, date, completed }, i) => (
+                    <li
+                        key={i}
+                        onClick={e => updateTodo(e, _id)}
+                        className={completed ? "completed" : ""}
+                    >
+                        {task}
+                        <IconButton aria-label="delete">
+                            <DeleteIcon onClick={e => deleteTodo(e, _id)} />
+                        </IconButton>
+                    </li>
+                    )): <p>No Todos Yet</p>}
+                </ul>
             </div>
           </div>
         </div>

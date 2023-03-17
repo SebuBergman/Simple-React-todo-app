@@ -1,28 +1,24 @@
 import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/Firebase';
+import { UserAuth } from '../../../context/AuthContext';
 
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { createUser } = UserAuth();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+    setError("");
+    try {
+      await createUser(email, password);
+      navigate('/todolist');
+    } catch (e) {
+      setError(e.message);
+      console.log(e.message);
+    }
   };
 
   return (
@@ -59,7 +55,10 @@ const Signup = () => {
               </button>
             </form>
             <p>
-              Already have an account? <NavLink to="/login">Sign in</NavLink>
+              Already have an account?
+              <NavLink to="/">
+                Sign in
+              </NavLink>
             </p>
           </div>
         </div>

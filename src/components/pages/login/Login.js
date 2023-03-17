@@ -1,27 +1,24 @@
 import React, {useState} from 'react';
-import { signInWithEmailAndPassword  } from 'firebase/auth';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/Firebase';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { UserAuth } from '../../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState('');
+  const { signIn } = UserAuth();
 
-  const onLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/home");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+    setError("");
+    try {
+      await signIn(email, password);
+      navigate('/todolist');
+    } catch (e) {
+      setError(e.message);
+      console.log(e.message);
+    }
   };
 
   return (
@@ -55,7 +52,7 @@ const Login = () => {
                 />
               </div>
               <div>
-                <button onClick={onLogin}>Login</button>
+                <button onClick={handleSubmit}>Login</button>
               </div>
             </form>
 

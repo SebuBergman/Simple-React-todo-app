@@ -29,18 +29,24 @@
 }
 
 #NavbarContainer {
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+  height: 60px;
 }
 
 #NavbarTitle {
   color: white;
 }
 
-#NavbarUser {
-  color: white;
+#UserText {
+  display: flex !important;
+  justify-content: flex-end !important;
 }
 
-
+#NavbarUser {
+  color: white;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
 
 @keyframes App-logo-spin {
   from {

@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from'@mui/material/Button';
-import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../components/firebase/Firebase';
 import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,19 +18,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 />
 
 function NavBar() {
-  const [uid, setUid] = useState("");
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        navigate("/");
-        console.log("Signed out successfully");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+  const { user, logout } = UserAuth();
+  const [uid, setUid] = useState("");
+  
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      console.log('You are logged out')
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   useEffect(() => {
@@ -38,7 +38,6 @@ function NavBar() {
       if (user) {
         // User is signed in.
         setUid(user.uid);
-        console.log("uid", uid);
       } else {
         // User is signed out
         console.log("user is logged out");
@@ -49,18 +48,14 @@ function NavBar() {
   return (
     <Navbar bg="dark" id="NavbarContainer">
       <Container>
-        <Navbar.Brand href="/" id="NavbarTitle">
+        <Navbar.Brand href="/todolist" id="NavbarTitle">
           Todo-app
         </Navbar.Brand>
         <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <div flexDirection="row">
-            <Navbar.Text id="NavbarUser">
-              Signed in as: <p>{uid}</p>
-            </Navbar.Text>
+          <div id="UserText">
+              <p id="NavbarUser">Signed in as: {user && user.email}</p>
             <Button onClick={handleLogout}>Logout</Button>
           </div>
-        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

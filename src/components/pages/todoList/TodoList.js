@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import APIHelper from "./APIHelper.js"
 import { AgGridReact } from 'ag-grid-react';
 import Button from'@mui/material/Button';
@@ -9,22 +10,21 @@ import Stack from'@mui/material/Stack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { format } from 'date-fns';
-import { signOut } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
+import { UserAuth } from '../../../context/AuthContext';
 import { auth } from '../../firebase/Firebase';
 import NavBar from '../../../navbar/Navbar';
 
 import '../../../App.css';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import e from 'cors';
 
 function TodoList() {
-    //const [todos, setTodos] = useState({task: "", date: "", completed: ""});
-    const [rowData, setRowData] = useState([]);
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState({task: "", date: ""});
     const [task, setTask] = useState("");
+    
     const gridRef = useRef();
 
     useEffect(() => {
@@ -34,13 +34,16 @@ function TodoList() {
         }
         fetchTodoAndSetTodos();
 
+        console.log(todos);
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in.
                 const uid = user.uid;
-                console.log("uid", uid);
+                //setauthenticated(true);
             } else {
                 // User is signed out
+                //setauthenticated(false);
                 console.log("user is logged out");
             }
         });
@@ -66,6 +69,7 @@ function TodoList() {
     }
 
     const updateTodo = async (e, id) => {
+        console.log(id);
         e.stopPropagation()
         const payload = {
             completed: !todos.find(todo => todo.id === id).completed,
@@ -75,6 +79,7 @@ function TodoList() {
     }
 
     const deleteTodo = async (e, id) => {
+        console.log(id);
         try {
             e.stopPropagation()
             await APIHelper.deleteTodo(id)
@@ -86,8 +91,27 @@ function TodoList() {
         { field: "task", sortable: true, filter: true, floatingFilter: true },
         { field: "date", sortable: true, filter: true, floatingFilter: true },
         { field: "completed", sortable: true, floatingFilter: true },
-        { field: "edit", sortable: true, floatingFilter: true},
-        { field: "delete", sortable: true, floatingFilter: true},
+        { field: "_id", sortable: true, floatingFilter: true, width: 300, },
+        {
+            headerName: 'Edit task',
+            field: "edit",
+            cellRenderer: (params) => (
+                <Button onClick={e => updateTodo(e, params.row.id)}
+                >
+                    Edit
+                </Button>
+            ),
+        },
+        {
+            headerName: 'Delete task',
+            field: "delete",
+            cellRenderer: (params) => (
+                <Button onClick={e => deleteTodo(e, params.row.id)}
+                >
+                    Delete
+                </Button>
+            ),
+        }
     ];
 
     return (
@@ -95,7 +119,7 @@ function TodoList() {
         <NavBar></NavBar>
         <div>
           <div>
-            <Stack direction="row" spacing={2} justifyContent="center" alignItems="centerg">
+            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                 <h4>Add todo:</h4>
                 <TextField
                     label="Description"
@@ -117,8 +141,6 @@ function TodoList() {
                     />
                 </LocalizationProvider>
                 <Button onClick={createTodo} variant="contained" className="buttonadd" startIcon={<AddIcon />}>Add</Button>
-                <Button onClick={deleteTodo} variant="contained" startIcon={<DeleteIcon />}>Delete</Button>
-                <Button onClick={updateTodo} variant="contained" >Not working</Button>
             </Stack>
             <span id="animationAction"></span>
             <div

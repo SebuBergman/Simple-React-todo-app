@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
+import Button from '@mui/material/Button';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { UserAuth } from '../../../context/AuthContext';
+
+import '../../../Forms.css'
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { signIn } = UserAuth();
 
   const handleSubmit = async (e) => {
@@ -14,7 +17,7 @@ const Login = () => {
     setError("");
     try {
       await signIn(email, password);
-      navigate('/todolist');
+      navigate("/todolist");
     } catch (e) {
       setError(e.message);
       console.log(e.message);
@@ -25,40 +28,44 @@ const Login = () => {
     <>
       <main>
         <section>
-          <div>
-            <p> Todo-app </p>
+          <div className="center">
+            <div className="auth">
+              <h1 className="title">Login</h1>
+              <form name="registration_form" className="form">
+                <div>
+                  <input
+                    className="input"
+                    id="email-address"
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <input
+                    className="input"
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div>
+                  <Button type="submit" onClick={handleSubmit} variant="contained" className="button">Login</Button>
+                </div>
+              </form>
 
-            <form>
-              <div>
-                <label htmlFor="email-address">Email address</label>
-                <input
-                  id="email-address"
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Create password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <div>
-                <button onClick={handleSubmit}>Login</button>
-              </div>
-            </form>
-
-            <p className="text-sm text-white text-center">
-              No account yet? <NavLink to="/signup">Sign up</NavLink>
+            <p className="LoginText">
+              No account yet?
+              <NavLink to="/signup">
+                Sign up
+              </NavLink>
             </p>
+            </div>
           </div>
         </section>
       </main>

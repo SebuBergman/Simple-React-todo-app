@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
+import Button from '@mui/material/Button';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../../../context/AuthContext';
+
+import '../../../Forms.css'
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,35 +27,33 @@ const Signup = () => {
   return (
     <main>
       <section>
-        <div>
-          <div>
-            <h1>Todo-app</h1>
-            <form>
+          <div className="center">
+            <div className="auth">
+            <h1 className="title">Register</h1>
+            <form className="form">
               <div>
-                <label htmlFor="email-address">Email address</label>
                 <input
+                  className="input"
                   type="email"
                   label="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  placeholder="Email address"
+                  placeholder="Enter your email"
                 />
               </div>
               <div>
-                <label htmlFor="password">Password</label>
                 <input
+                  className="input"
                   type="password"
                   label="Create password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  placeholder="Create password"
+                  placeholder="Enter your password"
                 />
               </div>
-              <button type="submit" onClick={onSubmit}>
-                Sign up
-              </button>
+              <Button type="submit" onClick={onSubmit} variant="contained" className="button">Sign up</Button>
             </form>
             <p>
               Already have an account?
@@ -60,8 +61,8 @@ const Signup = () => {
                 Sign in
               </NavLink>
             </p>
+            </div>
           </div>
-        </div>
       </section>
     </main>
   );

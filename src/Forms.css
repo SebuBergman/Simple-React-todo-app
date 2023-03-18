@@ -1,0 +1,40 @@
+.auth {
+    width: 90%;
+    max-width: 500px;
+    max-height: 1000px;
+    border: 1px solid #dcdcdc;
+    padding: 20px;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 0 auto 10px auto;
+}
+
+.input {
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.button {
+    height: 40px;
+    width: 100%;
+    font-size: 16px;
+    padding: 0 10px;
+}
+
+.center {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    padding: 20px;
+}

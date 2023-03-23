@@ -79,3 +79,9 @@
     text-decoration: line-through;
     color: #db3545;
 }
+
+.todo-icon {
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+}

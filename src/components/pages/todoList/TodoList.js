@@ -1,32 +1,44 @@
-import React, { useState, useRef, useEffect, Checkbox } from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from 'react';
 import APIHelper from "./APIHelper.js"
-import { AgGridReact } from 'ag-grid-react';
 import Button from'@mui/material/Button';
-import TextField from'@mui/material/TextField'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import CheckBoxChecked from '@mui/icons-material/CheckBox';
-import CheckBoxSquare from '@mui/icons-material/CheckBoxOutlineBlank';
 import Stack from'@mui/material/Stack';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { onAuthStateChanged } from "firebase/auth";
 import { UserAuth } from '../../../context/AuthContext';
 import { auth } from '../../firebase/Firebase';
 import NavBar from '../../../navbar/Navbar';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 import '../../../App.css';
 import '../../../Todo.css';
 import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 function TodoList() {
     const [checked, setChecked] = useState(false);
     const [todos, setTodos] = useState([]);
-    const [todo, setTodo] = useState({task: "", date: ""});
+    const [todo, setTodo] = useState("");
+    const [updateData, setUpdateData] = useState('');
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
     
     const gridRef = useRef();
 
@@ -37,25 +49,16 @@ function TodoList() {
         }
         fetchTodoAndSetTodos();
 
-        //console.log(todos);
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in.
                 const uid = user.uid;
-                //setauthenticated(true);
             } else {
                 // User is signed out
-                //setauthenticated(false);
                 console.log("user is logged out");
             }
         });
     }, [])
-
-    //Check if the input is changed
-    const inputChanged = (e) => {
-        setTodo({ ...todo, [e.target.name]: e.target.value });
-    }
 
     const createTodo = async e => {
         e.preventDefault()
@@ -63,20 +66,44 @@ function TodoList() {
             alert("please enter something")
             return
         }
-        if (todos.some(({ task }) => task === todo.task)) {
+        if (todos.some(({ task }) => task === todo)) {
             alert(`Task: ${todo} already exists`)
             return
         }
-        const newTodo = await APIHelper.createTodo(todo.task, todo.date)
+        const newTodo = await APIHelper.createTodo(todo)
         setTodos([...todos, newTodo])
+        setTodo("");
     }
 
-    const updateTodo = async (e, id) => {
+    const updateTodoCompletion = async (e, id) => {
         e.stopPropagation();
         const payload = {completed: !todos.find(todo => todo._id === id).completed}
         const updatedTodo  = await APIHelper.updateTodo(id, payload);
         setTodos(todos.map((todo)=> todo._id === id ? updatedTodo: todo));
         setChecked(!checked);
+    }
+
+    //Check if the input is changed
+    const inputChanged = (e) => {
+        setUpdateData({ ...updateData, [e.target.name]: e.target.value });
+    }
+
+    const editTodo = async (e, id, task, completed) => {
+        e.stopPropagation();
+        setUpdateData({
+            id: id,
+            task: task,
+            completed: completed
+        })
+        handleOpen();
+    }
+
+    const editTodoFunction = async (e, id, task) => {
+        e.stopPropagation();
+        const payload = {task}
+        const editedTodo  = await APIHelper.editTodo(id, payload);
+        setTodos(todos.map((todo)=> todo._id === id ? editedTodo: todo));
+        handleClose();
     }
 
     const deleteTodo = async (e, id) => {
@@ -101,24 +128,9 @@ function TodoList() {
                             variant="standard"
                             name="task"
                             placeholder="New Todo"
-                            value={todo.task}
-                            onChange={inputChanged}
+                            value={todo}
+                            onChange={({ target }) => setTodo(target.value)}
                         />
-                    </div>
-                    <div>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                className="date"
-                                label="Date"
-                                value={todo.date}
-                                inputFormat="dd.MM.yyyy"
-                                mask="__.__.____"
-                                onChange={(newValue) => {
-                                    setTodo({ ...todo, date: newValue });
-                                }}
-                                renderInput={(params) => <TextField variant="standard" {...params} />}
-                            />
-                        </LocalizationProvider>
                     </div>
                     <div className="addbuttoncontainer">
                         <Button type="submit" onClick={createTodo} variant="contained" className="addbutton" startIcon={<AddIcon />}>Add new task</Button>
@@ -141,11 +153,39 @@ function TodoList() {
                                     type="checkbox"
                                     //className={styles.checkbox}
                                     checked={completed}
-                                    onChange={(e) => updateTodo(e, _id)}
+                                    onChange={(e) => updateTodoCompletion(e, _id)}
                                 />
-                                <IconButton aria-label="delete" className="mx-2 text-warning">
-                                    <EditIcon /*onClick={e => editTodo(e, _id)}*/ />
-                                </IconButton>
+                                <div>
+                                    <IconButton aria-label="delete" className="mx-2 text-warning">
+                                        <EditIcon onClick={ (e) => editTodo(e, _id, task, completed)}/>
+                                    </IconButton>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                                            Edit todo:
+                                        </Typography>
+                                        <div className="addtodo">
+                                            <input
+                                                className="input"
+                                                type="type"
+                                                variant="standard"
+                                                name="task"
+                                                placeholder="New Todo"
+                                                value={updateData.task}
+                                                onChange={inputChanged}
+                                            />
+                                        </div>
+                                        <div className="addbuttoncontainer">
+                                            <Button type="submit" onClick={e => editTodoFunction(e, _id, updateData.task)} variant="contained" className="addbutton" startIcon={<AddIcon />}>Add new task</Button>
+                                        </div>
+                                        </Box>
+                                    </Modal>
+                                </div>
                                 <IconButton aria-label="delete" className="mx-2 text-danger">
                                     <DeleteIcon onClick={e => deleteTodo(e, _id)}/>
                                 </IconButton>

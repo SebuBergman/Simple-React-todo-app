@@ -6,6 +6,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from '../components/firebase/Firebase';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -45,6 +47,10 @@ function NavBar() {
     });
   }, [uid]);
 
+  function SettingsNavigation() {
+    navigate("/settings");
+  }
+
   return (
     <Navbar bg="dark" id="NavbarContainer">
       <Container>
@@ -54,6 +60,9 @@ function NavBar() {
         <Navbar.Toggle />
           <div id="UserText">
               <p id="NavbarUser">Signed in as: {user && user.email}</p>
+              <IconButton aria-label="delete" className="mx-2 text-danger">
+                <SettingsIcon onClick={() => SettingsNavigation()}/>
+              </IconButton>
             <Button onClick={handleLogout}>Logout</Button>
           </div>
       </Container>

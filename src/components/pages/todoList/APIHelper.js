@@ -2,10 +2,13 @@ import axios from "axios";
 
 const API_URL = "http://127.0.0.1:5000/todos/";
 
-async function createTodo(task, date) {
+async function createTodo(task, userId) {
+    console.log(userId);
     const { data: newTodo } = await axios.post(API_URL, {
         task,
+        userId
     });
+    console.log(newTodo);
     return newTodo;
 }
 
@@ -24,8 +27,8 @@ async function deleteTodo(id) {
     return message;
 }
 
-async function getAllTodos() {
-    const { data: todos } = await axios.get(API_URL);
+async function getAllTodos(userId) {
+    const { data: todos } = await axios.get(`${API_URL}?userId=${userId}`);
     return todos;
 }
 

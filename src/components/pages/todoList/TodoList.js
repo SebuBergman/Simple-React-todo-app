@@ -31,36 +31,36 @@ const style = {
 };
 
 function TodoList() {
+    const [uid, setUid] = useState('');
     const [checked, setChecked] = useState(false);
     const [todos, setTodos] = useState([]);
-    const [todo, setTodo] = useState("");
+    const [todo, setTodo] = useState('');
     const [updateData, setUpdateData] = useState('');
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
-    const gridRef = useRef();
 
     useEffect(() => {
-        const fetchTodoAndSetTodos = async () => {
-            const todos = await APIHelper.getAllTodos()
-            setTodos(todos)
-        }
-        fetchTodoAndSetTodos();
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 // User is signed in.
                 const uid = user.uid;
+                setUid(uid);
+                const fetchTodoAndSetTodos = async () => {
+                const todos = await APIHelper.getAllTodos(uid);
+                setTodos(todos);
+                }
+                fetchTodoAndSetTodos();
             } else {
                 // User is signed out
                 console.log("user is logged out");
             }
         });
-    }, [])
+    }, [uid]);
 
-    const createTodo = async e => {
+    const createTodo = async (e) => {
+
         e.preventDefault()
         if (!todo) {
             alert("please enter something")
@@ -70,7 +70,7 @@ function TodoList() {
             alert(`Task: ${todo} already exists`)
             return
         }
-        const newTodo = await APIHelper.createTodo(todo)
+        const newTodo = await APIHelper.createTodo(todo, uid);
         setTodos([...todos, newTodo])
         setTodo("");
     }

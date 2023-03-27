@@ -35,7 +35,8 @@ function TodoList() {
     const [checked, setChecked] = useState(false);
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState('');
-    const [updateData, setUpdateData] = useState('');
+    const [updateData, setUpdateData] = useState({});
+    const [todoId, setTodoId] = useState('');
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -60,7 +61,6 @@ function TodoList() {
     }, [uid]);
 
     const createTodo = async (e) => {
-
         e.preventDefault()
         if (!todo) {
             alert("please enter something")
@@ -88,21 +88,25 @@ function TodoList() {
         setUpdateData({ ...updateData, [e.target.name]: e.target.value });
     }
 
-    const editTodo = async (e, id, task, completed) => {
+    const editTodo = async (e, id, task) => {
         e.stopPropagation();
+        //setTodoId(id);
+        //setUpdateData({task});
         setUpdateData({
-            id: id,
             task: task,
-            completed: completed
-        })
+            id: id,
+        });
         handleOpen();
     }
 
-    const editTodoFunction = async (e, id, task) => {
+    const editTodoFunction = async (e, id) => {
         e.stopPropagation();
-        const payload = {task}
+        const payload = {task: updateData.task}
         const editedTodo  = await APIHelper.editTodo(id, payload);
-        setTodos(todos.map((todo)=> todo._id === id ? editedTodo: todo));
+        setTodos(todos.map((todo)=> (todo._id === id ? editedTodo: todo)));
+        //setUpdateData('');
+        //setTodoId('');
+        setUpdateData({});
         handleClose();
     }
 
@@ -118,9 +122,9 @@ function TodoList() {
       <div>
         <NavBar></NavBar>
         <div>
-            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+            <Stack spacing={2} className='stacks'>
                 <div className="todoInput">
-                    <h4>Add todo:</h4>
+                    <h1>Todo List</h1>
                     <div className="addtodo">
                         <input
                             className="input"
@@ -138,7 +142,7 @@ function TodoList() {
                 </div>
             </Stack>
             <span id="animationAction"></span>
-            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+            <Stack spacing={2} className='stacks'>
                 <div>
                     <ul className="list-group my-5" id="todolist">
                         {todos.length ? todos.map(({ _id, task, date, completed }, i) => (
@@ -147,17 +151,20 @@ function TodoList() {
                             id="todos"
                             className="list-group-item d-flex justify-content-between my-2"
                         >
+                            <div className="flexRow">
+                            <input
+                                type="checkbox"
+                                className="checkboxInput"
+                                //className={styles.checkbox}
+                                checked={completed}
+                                onChange={(e) => updateTodoCompletion(e, _id)}
+                            />
                             <h6 id="todotitle" className={`mt-1 mb-0 align-middle ${completed ? "completed" : ""}`}>{task}</h6>
+                            </div>
                             <div className="todo-icon">
-                                <input
-                                    type="checkbox"
-                                    //className={styles.checkbox}
-                                    checked={completed}
-                                    onChange={(e) => updateTodoCompletion(e, _id)}
-                                />
                                 <div>
                                     <IconButton aria-label="delete" className="mx-2 text-warning">
-                                        <EditIcon onClick={ (e) => editTodo(e, _id, task, completed)}/>
+                                        <EditIcon onClick={ (e) => editTodo(e, _id, task)}/>
                                     </IconButton>
                                     <Modal
                                         open={open}
@@ -179,9 +186,17 @@ function TodoList() {
                                                 value={updateData.task}
                                                 onChange={inputChanged}
                                             />
+                                            <input
+                                                type="hidden"
+                                                variant="standard"
+                                                name="id"
+                                                placeholder="New Todo"
+                                                value={updateData.id}
+                                                onChange={inputChanged}
+                                            />
                                         </div>
                                         <div className="addbuttoncontainer">
-                                            <Button type="submit" onClick={e => editTodoFunction(e, _id, updateData.task)} variant="contained" className="addbutton" startIcon={<AddIcon />}>Add new task</Button>
+                                            <Button type="submit" onClick={e => editTodoFunction(e, updateData.id)} variant="contained" className="addbutton" startIcon={<AddIcon />}>Edit task</Button>
                                         </div>
                                         </Box>
                                     </Modal>

@@ -1,7 +1,6 @@
 .todoInput {
     width: 100%;
     max-width: 800px;
-    border: 1px solid #dcdcdc;
     padding: 20px;
     text-align: center;
 }
@@ -50,6 +49,7 @@
 .addbutton {
     width: 100%;
     margin-top: 20px;
+    letter-spacing: 1px !important;
 }
 
 .todocontainer {
@@ -73,6 +73,7 @@
 
 #todotitle {
     margin: 8px!important;
+    font-size: 18px;
 }
 
 .completed-task {
@@ -84,4 +85,43 @@
     width: 100px;
     display: flex;
     flex-direction: row;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.checkboxInput {
+    width: 25px;
+    margin: 12px;
+    height: 18px;
+}
+
+.stacks {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.stacksTodolist {
+    margin-top: 40px;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.my-5 {
+    margin-top: 0px !important;
+}
+
+.mx-2 {
+    margin: 0 !important;
+}
+
+.button {
+    letter-spacing: 1;
 }

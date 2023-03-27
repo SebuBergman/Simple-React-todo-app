@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Container from 'react-bootstrap/Container';
+import Containers from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from'@mui/material/Button';
 import { onAuthStateChanged } from "firebase/auth";
@@ -53,7 +53,7 @@ function NavBar() {
 
   return (
     <Navbar bg="dark" id="NavbarContainer">
-      <Container>
+      <Containers className="NavbarContainer">
         <Navbar.Brand href="/todolist" id="NavbarTitle">
           Todo-app
         </Navbar.Brand>
@@ -65,7 +65,7 @@ function NavBar() {
               </IconButton>
             <Button onClick={handleLogout}>Logout</Button>
           </div>
-      </Container>
+      </Containers>
     </Navbar>
   );
 }

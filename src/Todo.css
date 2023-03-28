@@ -1,127 +1,125 @@
 .todoInput {
-    width: 100%;
-    max-width: 900px;
-    padding: 20px;
-    text-align: center;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
+  text-align: center;
 }
 
 #todos {
-    padding: 20px;
+  padding: 20px;
 }
 
 .todoList {
-    width: 100%;
-    max-width: 900px;
-    padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  padding: 20px;
 }
 
 .addtodo {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin: 0 auto 10px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 auto 10px auto;
 }
 
 .input {
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    padding: 0 10px;
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 10px;
 }
 
 .button {
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    padding: 0 10px;
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  padding: 0 10px;
 }
 
 .center {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .title {
-    padding: 20px;
+  padding: 20px;
 }
 
 .date {
-    width: 100%;
+  width: 100%;
 }
 
 .addbuttoncontainer {
-    width: 100%;
-    margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 }
 
 .addbutton {
-    width: 100%;
-    margin-top: 20px;
-    letter-spacing: 1px !important;
+  width: 100%;
+  margin-top: 20px;
+  letter-spacing: 1px !important;
 }
 
 .todocontainer {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
-
 #todotitle {
-    margin: 8px!important;
-    font-size: 18px;
+  margin: 8px !important;
+  font-size: 18px;
 }
 
 .completed-task {
-    text-decoration: line-through;
-    color: #db3545;
+  text-decoration: line-through;
+  color: #db3545;
 }
 
 .todo-icon {
-    width: 100px;
-    display: flex;
-    flex-direction: row;
+  width: 100px;
+  display: flex;
+  flex-direction: row;
 }
 
 .flexRow {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .checkboxInput {
-    width: 25px;
-    margin: 12px;
-    height: 18px;
+  width: 25px;
+  margin: 12px;
+  height: 18px;
 }
 
 .stacks {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .stacksTodolist {
-    margin-top: 40px;
-    margin-bottom: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  margin-top: 40px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .my-5 {
-    margin-top: 0px !important;
+  margin-top: 0px !important;
 }
 
 .mx-2 {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .button {
-    letter-spacing: 1;
+  letter-spacing: 1;
 }

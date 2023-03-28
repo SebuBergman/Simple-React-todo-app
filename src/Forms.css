@@ -219,7 +219,7 @@ input {
 }
 
 .overlay {
-    background-image: url('../public/image.gif');
+    background-image: url('../public/ScreenBackground.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;

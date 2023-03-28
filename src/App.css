@@ -1,5 +1,10 @@
+#root {
+  height: 100vh;
+}
+
 .App {
   text-align: center;
+  height: 100%;
 }
 
 .completed {
@@ -43,7 +48,6 @@ body {
 }
 
 #NavbarContainer {
-  margin-bottom: 50px;
   height: 60px;
 }
 
@@ -56,7 +60,7 @@ body {
   justify-content: flex-end !important;
 }
 
-#NavbarUser {
+#NavbarUserWhite {
   color: white;
   margin-top: 16px;
   margin-bottom: 16px;

@@ -14,33 +14,44 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import '../../../Settings.css';
+
 function Settings() {
+  const [userDetails, setUserDetails] = useState('');
+  const { user } = UserAuth();
   const navigate = useNavigate();
 
   function BackToTodoList() {
     navigate("/todolist");
   }
 
+  useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in.
+                const uid = user.uid;
+                setUserDetails(uid);
+            } else {
+                // User is signed out
+                console.log("user is logged out");
+            }
+        });
+    }, [userDetails]);
+
   return (
     <div>
       <NavBar></NavBar>
-      <div>
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography>Text</Typography>
-        </Stack>
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button onClick={() => BackToTodoList()}>Back to TodoList</Button>
-        </Stack>
+      <div className="divBody">
+        <div className="UserDetails">
+          <h1 id="NavbarUser">{user && user.displayName}</h1>
+          <h1 id="NavbarUser">{user && user.email}</h1>
+        </div>
+          <input className="darkmodeInput" type="checkbox" id="dark-mode" />
+          <label className="darkmodeLabel" htmlFor="dark-mode"></label>
+          <div className="background"></div>
+          <div className="buttonContainer">
+            <Button onClick={() => BackToTodoList()}>Back to TodoList</Button>
+          </div>
       </div>
     </div>
   );

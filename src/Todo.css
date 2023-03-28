@@ -1,8 +1,18 @@
 .todoInput {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     padding: 20px;
     text-align: center;
+}
+
+#todos {
+    padding: 20px;
+}
+
+.todoList {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
 }
 
 .addtodo {
@@ -59,17 +69,7 @@
     align-items: center;
 }
 
-#todos {
-    width: 100%;
-    max-width: 800px;
-    border: 1px solid #dcdcdc;
-    padding: 20px;
-    margin-top: 20px;
-}
 
-#todolist {
-    width: 800px;
-}
 
 #todotitle {
     margin: 8px!important;

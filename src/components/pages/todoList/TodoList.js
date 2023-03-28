@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import APIHelper from "./APIHelper.js"
 import Button from'@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
@@ -36,7 +36,6 @@ function TodoList() {
     const [todos, setTodos] = useState([]);
     const [todo, setTodo] = useState('');
     const [updateData, setUpdateData] = useState({});
-    const [todoId, setTodoId] = useState('');
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -122,6 +121,7 @@ function TodoList() {
       <div>
         <NavBar></NavBar>
         <div>
+            <div className="background"></div>
             <Stack spacing={2} className='stacks'>
                 <div className="todoInput">
                     <h1>Todo List</h1>
@@ -143,8 +143,8 @@ function TodoList() {
             </Stack>
             <span id="animationAction"></span>
             <Stack spacing={2} className='stacks'>
-                <div>
-                    <ul className="list-group my-5" id="todolist">
+                <div className="todoList">
+                    <ul className="list-group my-5">
                         {todos.length ? todos.map(({ _id, task, date, completed }, i) => (
                         <li
                             key={i}
